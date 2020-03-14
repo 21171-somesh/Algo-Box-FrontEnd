@@ -7,15 +7,16 @@ import Login from "./Login";
 
 function Signup(props) {
   const [isRegistered, setRegistered] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [userName, setUserName] = useState("");
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  let authUrl = "http://api-toolbox.herokuapp.com/api/auth/create";
 
   function postSignup() {
-    axios.post("http://127.0.0.1:5000/api/register", {
-      userName,
+    axios.post(authUrl, {
+      username,
       password,
-      fullName
+      name
     }).then(result => {
       console.log(result.data);
       setRegistered(true);
@@ -32,17 +33,17 @@ function Signup(props) {
       <Form>
         <Input 
           type="text"
-          value={fullName}
+          value={name}
           onChange={e => {
-            setFullName(e.target.value);
+            setName(e.target.value);
           }}
           placeholder="Full Name"
         />
         <Input
           type="username"
-          value={userName}
+          value={username}
           onChange={e => {
-            setUserName(e.target.value);
+            setUsername(e.target.value);
           }}
           placeholder="Username"
         />

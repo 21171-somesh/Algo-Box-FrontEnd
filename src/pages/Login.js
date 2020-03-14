@@ -22,7 +22,7 @@ function Login(props) {
 
   function postLogin() {
     axios
-      .post("http://127.0.0.1:5000/api/auth", {
+      .post("http://api-toolbox.herokuapp.com/api/auth/auth", {
         username: username,
         password: password
       })

@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import { BrowserRouter, Link, Route } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import ProbList from "./ProbList";
 import Prob from "./Prob";
 import Navbar from "./Components/Main/Navbar";
@@ -17,10 +17,12 @@ function App(props) {
   const verifyToken = () => {
     const tokens = localStorage.getItem("authToken");
     let decodedToken = undefined;
-    decodedToken = jwt.verify(
-      JSON.parse(JSON.stringify(tokens)),
-      "secretkey"
-    );
+    try {
+      decodedToken = jwt.verify(
+        JSON.parse(JSON.stringify(tokens)),
+        "secretkey"
+      );
+    } catch (err) {}
     return decodedToken;
   };
   const [authTokens, setAuthTokens] = useState(verifyToken());
@@ -36,12 +38,14 @@ function App(props) {
       <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
         <BrowserRouter>
           <Navbar />
-          <Route exact path="/" component={ProbList} />
-          <Route path="/:post_id" component={Prob} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <PrivateRoute path="/logout" component={Logout} />
-          <PrivateRoute path="/admin" component={Admin} />
+          <Switch>
+            <Route exact path="/" component={ProbList} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <PrivateRoute path="/logout" component={Logout} />
+            <PrivateRoute path="/admin" component={Admin} />
+            <Route path="/:post_id" component={Prob} />
+          </Switch>
         </BrowserRouter>
       </AuthContext.Provider>
     </div>

@@ -7,15 +7,19 @@ class ProbList extends Component {
     this.state = {
       probs: [],
       loaded: false
-    }
+    };
   }
   componentDidMount() {
-    axios.get("https://jsonplaceholder.typicode.com/posts").then(res => {
-      this.setState({
-        probs: res.data.slice(0, 10),
-        loaded: true
+    try {
+      axios.get("https://jsonplaceholder.typicode.com/posts").then(res => {
+        this.setState({
+          probs: res.data.slice(0, 10),
+          loaded: true
+        });
       });
-    });
+    } catch (err) {
+      console.log(err);
+    }
   }
   render() {
     if (!this.state.loaded) {
